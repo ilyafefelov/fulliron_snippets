@@ -12,33 +12,33 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+
+/*SORTING even to the left in ascending order
+*         odd to the right in descending order
+*/
 
 public class ArrayListSort {
     public static void main(String[] args) {
 
 //Scanning and Initialisation
         Scanner in = new Scanner(System.in);
-        int N = in.nextInt();
-
-        List<Integer> list = new ArrayList<>();
-        for (int i = 0; i < N; i++) {list.add(in.nextInt());}
-//------------
 
 //Sorting
-        Collections.sort(list, (n1, n2) -> {
-            if(n1 % 2 == 0 && n2 % 2 != 0) {return -1;}
-            if(n1 % 2 != 0 && n2 % 2 == 0) {return 1;}
-            if(n1 % 2 == 0 && n2 % 2 == 0) {
-                if(n1<n2){ return n1-n2;}
-                else{ return 0;}
-            }
-            if(n1%2!=0 && n2%2!=0){return n2-n1;}
-            else {return 0;}
-        });
-//-----------------
-
+        List<Integer> list = IntStream.range(0, in.nextInt())
+                            .mapToObj(i -> in.nextInt())
+                            .sorted((n1, n2) -> {
+                                if (n1 % 2 == 0 && n2 % 2 != 0) return -1;
+                                if (n1 % 2 != 0 && n2 % 2 == 0) return 1;
+                                if (n1 % 2 == 0 && n2 % 2 == 0) return n1 < n2 ? n1 - n2 : 0;
+                                if (n1 % 2 != 0 && n2 % 2 != 0) return n2 - n1;
+                                else                            return 0;
+                            })
+                            .collect(Collectors.toList());
 //Printing
         System.out.println(list);
+
     }
 }
 
